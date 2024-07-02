@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "esnext",
     "rootDir": "./src",
     "outDir": "./dist",
+    "moduleResolution": "bundler",
     "removeComments": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
