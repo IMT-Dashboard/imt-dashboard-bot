@@ -1,6 +1,6 @@
 import { Client, ClientUser, EmbedBuilder } from 'discord.js';
 import { config } from '../config';
-import { NotificationType } from '../model/notification.model';
+import { Notification } from '../model/notification.model';
 
 const client = new Client({
   intents: ['DirectMessages', 'Guilds', 'GuildMessages']
@@ -24,15 +24,15 @@ function changeBotPresence(user: ClientUser) {
   });
 }
 
-export async function sendDiscordNotification(discordId: string, notificationType: NotificationType) {
-  const user = await client.users.fetch(discordId);
+export async function sendDiscordNotification(notification: Notification) {
+  const user = await client.users.fetch(notification.discordId);
   if (!user) return;
 
-  const length = notificationType.subjects.length;
+  const length = notification.subjects.length;
   const s = length > 1 ? 's' : '';
   const s2 = length > 1 ? 'sont' : 'est';
   const s3 = length > 1 ? 'les matières suivantes' : 'la matière suivante';
-  const message = `**${length}** nouvelle${s} note${s} ${s2} disponible${s} au semestre **${notificationType.semester}** pour ${s3} :\n* ${notificationType.subjects.join('\n* ')}`;
+  const message = `**${length}** nouvelle${s} note${s} ${s2} disponible${s} au semestre **${notification.semester}** pour ${s3} :\n* ${notification.subjects.join('\n* ')}`;
 
   const embed = new EmbedBuilder()
     .setTitle('📬 Nouvelle note disponible !')

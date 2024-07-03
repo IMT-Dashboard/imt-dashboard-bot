@@ -1,6 +1,6 @@
-export interface NotificationType {
+export interface Notification {
   username: string;
-  email: string;
+  discordId: string;
   semester: string;
   subjects: string[];
 }
