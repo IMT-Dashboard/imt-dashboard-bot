@@ -33,9 +33,10 @@ export async function sendDiscordNotification(notification: Notification) {
   const s2 = length > 1 ? 'sont' : 'est';
   const s3 = length > 1 ? 'les matières suivantes' : 'la matière suivante';
   const message = `**${length}** nouvelle${s} note${s} ${s2} disponible${s} au semestre **${notification.semester}** pour ${s3} :\n* ${notification.subjects.join('\n* ')}`;
+  const titleMessage = length > 1 ? 'Consulter les nouvelles notes !' : 'Consulter la nouvelle note !';
 
   const embed = new EmbedBuilder()
-    .setTitle('📬 Nouvelle note disponible !')
+    .setTitle('📬 ' + titleMessage)
     .setDescription(message)
     .setURL('https://imt-dashboard.vercel.app')
     .setAuthor({ name: 'IMT Dashboard', iconURL: 'https://imt-dashboard.vercel.app/logo.png' })

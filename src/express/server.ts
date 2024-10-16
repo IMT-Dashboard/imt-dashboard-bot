@@ -1,8 +1,6 @@
 import express from 'express';
 import { config } from '../config';
 import { Notification } from '../model/notification.model';
-import { getUsernameFromJWT } from '../util/utils';
-import jwt from 'jsonwebtoken';
 import { sendDiscordNotification } from '../discord/discord';
 
 const port = config.PORT;
@@ -22,21 +20,9 @@ app.post('/api/notification', async (req, res) => {
     return;
   }
 
-  const token = authorization.split(' ')[1];
-
-  const payload = jwt.verify(token, config.JWT_SECRET) as { username: string } | null;
-
-  if (!payload) {
+  if (authorization !== config.NOTIFICATION_AUTHORIZATION_KEY) {
     res.status(401).send('Unauthorized');
-    console.log('Received notification with invalid token');
-    return;
-  }
-
-  const username = getUsernameFromJWT(token);
-
-  if (username != notification.username) {
-    res.status(401).send('Unauthorized');
-    console.log('Received notification with invalid username');
+    console.log('Received notification with invalid authorization key');
     return;
   }
 
